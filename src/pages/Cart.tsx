@@ -2,16 +2,18 @@ import { Header } from '@/components/Header';
 import { CartItem } from '@/components/CartItem';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { useAppSelector } from '@/store/hooks';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, ArrowLeft } from 'lucide-react';
-import { toast } from 'sonner';
+import { ShoppingBag, ArrowLeft, X } from 'lucide-react';
+import { useState } from 'react';
 
 const Cart = () => {
   const { items, totalItems, totalPrice } = useAppSelector((state) => state.cart);
+  const [showCheckoutDialog, setShowCheckoutDialog] = useState(false);
 
   const handleCheckout = () => {
-    toast.info('Checkout feature coming soon!');
+    setShowCheckoutDialog(true);
   };
 
   if (items.length === 0) {
@@ -96,6 +98,27 @@ const Cart = () => {
           </div>
         </div>
       </main>
+
+      <Dialog open={showCheckoutDialog} onOpenChange={setShowCheckoutDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">Coming Soon</DialogTitle>
+            <DialogDescription className="text-base pt-2">
+              Our checkout feature is currently under development. We're working hard to bring you a seamless shopping experience soon!
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-center">
+            <Button 
+              onClick={() => setShowCheckoutDialog(false)}
+              size="lg"
+              className="w-full sm:w-auto"
+            >
+              <X className="mr-2 h-4 w-4" />
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
